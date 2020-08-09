@@ -1,0 +1,11 @@
+li {
+    list-style: none;
+    display: inline;
+    font-family: ''Open Sans Condensed' ,Lexend Tera', sans-serif;
+}
+
+.fixed-nav {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
