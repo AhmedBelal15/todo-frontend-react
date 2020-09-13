@@ -4,13 +4,17 @@ import './index.css';
 import App from './App';
 import './tailwind.output.css'
 import {Provider} from 'react-redux';
+import { Provider as AlertProvider } from 'react-alert'
+import AlertMUITemplate from "react-alert-template-mui";
 import store from './redux/store'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+      <AlertProvider template={AlertMUITemplate}>
     <App />
+    </AlertProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

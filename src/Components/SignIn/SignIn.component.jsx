@@ -4,16 +4,36 @@ import FormInput from '../Form Input/FormInput.component'
 import CustomButton from '../CustomButton/CustomButton.component'
 import {setCurrentUser} from '../../redux/user/user-actions'
 import {connect} from 'react-redux'
+import { useAlert } from "react-alert";
 import './SignIn.style.css'
 
 
 const SignIn = ({setCurrentUser}) => {
-    
-    const handleSignIn = (e) => {
+    const alert = useAlert()
+    const handleSignIn = async (e) => {
         e.preventDefault();
-        setCurrentUser({
-          currentUser: "Ahmed"
+
+        const response = await fetch('http://localhost:4000/api/user/login',
+        {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+           email: values.email,
+           password: values.password
+          })
         })
+
+        const data = await response.json()
+        
+        if(data.msg === 'logged in') {
+          setCurrentUser({
+            currentUser: data.userObject
+          })
+
+          localStorage.setItem('currentUser', JSON.stringify(data))
+        } else {
+          alert.show(data);
+        }
         }
 
 

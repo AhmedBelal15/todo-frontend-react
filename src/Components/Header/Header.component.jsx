@@ -8,6 +8,7 @@ import {setCurrentUser} from '../../redux/user/user-actions'
 const Header = ({currentUser, setCurrentUser}) => {
 
     const handleSignout = () => {
+        localStorage.clear()
         setCurrentUser({
             currentUser: null
           })

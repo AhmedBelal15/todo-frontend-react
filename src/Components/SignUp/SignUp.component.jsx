@@ -2,12 +2,42 @@ import React, {} from 'react';
 import {useForm} from '../../CustomHooks/useForm'
 import FormInput from '../Form Input/FormInput.component'
 import CustomButton from '../CustomButton/CustomButton.component'
+import {setCurrentUser} from '../../redux/user/user-actions'
+import {connect} from 'react-redux'
+import { useAlert } from "react-alert";
 import './SignUp.Style.css'
 
-const SignUp = () => {
-
-    const handleSubmit = (e) => {
+const SignUp = ({setCurrentUser}) => {
+    const alert = useAlert()
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        const {name, email, password, confirmPassword} = values
+        if(password !== confirmPassword) {
+            alert.show('Passwords don\'t match')
+            return
+        }
+        const response = await fetch(
+            'http://localhost:4000/api/user/register',
+            {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password
+                })
+            })
+        const data = await response.json()
+        
+        if(data === 'Email already exists') {
+            alert (data)
+        } else if (data.msg === 'Registered') {
+            setCurrentUser({
+                currentUser: data.userObject
+              })    
+        }
     }
 
 
@@ -46,7 +76,9 @@ const SignUp = () => {
             value={values.password}
             onChange={handleChange}
             label='Password'
-            required />
+            required 
+            minLength = '6'
+            />
 
             <FormInput  
             type='password'
@@ -54,12 +86,21 @@ const SignUp = () => {
             value={values.confirmPassword}
             onChange={handleChange}
             label='confirmPassword'
-            required />  
+            required 
+            minLength = '6'
+            />  
             
             <CustomButton type="submit">SIGN UP</CustomButton>                
         </form>
      </div> 
     )
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+      setCurrentUser: (user)=>{
+        dispatch(setCurrentUser(user))
+      }
+    }
+  }
 
-export default SignUp;
+export default connect(null,mapDispatchToProps) (SignUp);
