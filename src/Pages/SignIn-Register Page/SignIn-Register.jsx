@@ -5,7 +5,7 @@ import './SignIn-Register.style.css'
 
 const SignInPage = () => {
     return(
-        <div className='mt-10 pt-10 flex justify-between sign-in-and-sign-up'>
+        <div className='flex justify-between sign-in-and-sign-up'>
             <SignIn />
             <SignUp />
         </div>
