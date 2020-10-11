@@ -7,18 +7,18 @@ import ScrollBox from "../../Components/Scroll/ScrollBox.component";
 import { useState } from "react";
 
 const TodoPage = ({ currentUser }) => {
-  const [todo, todoUpdate] = useState({ counter: 0 });
+  const [todo, setTodo] = useState({ counter: 0 });
   if (currentUser) {
     return (
       <div className="flex justify-center">
         <div>
           <div className="border-b border-blue-500 py-2 w-full">
-            <TodoAdd todo={todo} todoUpdate={todoUpdate} />
+            <TodoAdd todo={todo} setTodo={setTodo} />
           </div>
 
           <div className="mt-4">
             <ScrollBox>
-              <GetTodos todo={todo} />
+              <GetTodos todo={todo} setTodo={setTodo} />
             </ScrollBox>
           </div>
         </div>

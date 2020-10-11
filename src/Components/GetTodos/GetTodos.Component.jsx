@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Card from "../Card/Card.component";
 
-const GetTodos = ({ todo }) => {
+const GetTodos = ({ todo,setTodo }) => {
   //Get user from localstorage
   const userId = JSON.parse(localStorage.getItem("currentUser")).userObject._id;
   //Initialize State
@@ -21,6 +21,16 @@ const GetTodos = ({ todo }) => {
     })();
   }, [todo]);
 
+  // Todo Handlers
+  const handleDelete = (id) => {
+    fetch(`http://localhost:4000/api/user/removeTodo/${id}`, {
+      method: 'delete',
+
+    })
+    setTodo({counter: todo.counter++})
+  };
+
+  const handleEdit = () => {};
   //Returning the Card Component and passing necessary data
   return todos.map((item, i) => {
     return (
@@ -29,6 +39,7 @@ const GetTodos = ({ todo }) => {
         description={todos[i].description}
         key={todos[i]._id}
         className="mt-2"
+        handleDelete = {()=>handleDelete(todos[i]._id)}
       />
     );
   });

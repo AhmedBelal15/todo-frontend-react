@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DatePickerComponent from "../../Components/Date Picker/DatePicker.Component";
 import { useAlert } from "react-alert";
 
-const TodoAdd = ({ todoUpdate, todo }) => {
+const TodoAdd = ({ setTodo, todo }) => {
   const alert = useAlert();
 
   // Get Token + userId
@@ -18,8 +18,6 @@ const TodoAdd = ({ todoUpdate, todo }) => {
     e.preventDefault();
     const date = new Date();
     date.setHours(0, 0, 0, 0);
-    console.log("date", date);
-    console.log("values", values.toBeDoneAt);
     if (date > new Date(values.toBeDoneAt)) {
       return alert.show("Can't Accept Dates in the past");
     }
@@ -34,7 +32,7 @@ const TodoAdd = ({ todoUpdate, todo }) => {
       }),
     });
     // change state to rerender component
-    todoUpdate({ counter: todo.counter++ });
+    setTodo({ counter: todo.counter++ });
 
     // reset the state
     handleChange({
