@@ -38,8 +38,11 @@ const GetTodos = ({ todo,setTodo }) => {
         title={todos[i].title}
         description={todos[i].description}
         key={todos[i]._id}
+        _id={todos[i]._id}
         className="mt-2"
         handleDelete = {()=>handleDelete(todos[i]._id)}
+        todo={todo}
+        setTodo={setTodo}
       />
     );
   });
