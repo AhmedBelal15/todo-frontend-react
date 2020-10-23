@@ -1,33 +1,63 @@
 import React, { useState } from "react";
 import DatePickerComponent from "../Date Picker/DatePicker.Component";
+import { useAlert } from "react-alert";
 
-const EditPopup = ({ setPopup, _id, todo, setTodo }) => {
+const EditPopup = ({
+  setPopup,
+  _id,
+  todo,
+  setTodo,
+  title,
+  description,
+  toBeDoneAt,
+}) => {
   const [values, handleChange] = useState({
-    title: "",
-    description: "",
-    toBeDoneAt: "",
+    title,
+    description,
+    toBeDoneAt,
   });
+  //Get token from localstorage
+  const token = JSON.parse(localStorage.getItem("currentUser")).accessToken;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const date = new Date();
     date.setHours(0, 0, 0, 0);
     if (date > new Date(values.toBeDoneAt)) {
       return alert.show("Can't Accept Dates in the past");
     }
-    fetch(`http://localhost:4000/api/user/editTodo/${_id}`, {
-      method: "put",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: values.title,
-        description: values.description,
-        toBeDoneAt: values.toBeDoneAt,
-      }),
-    });
-    setTodo({counter: todo.counter++})
-    setPopup(false)
+    if (
+      values.title === title &&
+      values.description === description &&
+      values.toBeDoneAt === toBeDoneAt
+    ) {
+      return alert.show(
+        "You must perform an edit to continue, or press Cancel"
+      );
+    }
+     await fetch(
+      `http://localhost:4000/api/user/editTodo/${_id}`,
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          auth: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: values.title,
+          description: values.description,
+          toBeDoneAt: values.toBeDoneAt,
+        }),
+      }
+    );
+
+      setTodo({todo: todo.counter++});
+      setPopup(false);
+    
   };
 
+  const alert = useAlert();
+  const date1 = new Date(values.toBeDoneAt);
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -56,7 +86,7 @@ const EditPopup = ({ setPopup, _id, todo, setTodo }) => {
                     <div className="flex items-center">
                       <input
                         name="title"
-                        className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                        className="border-2 border-gray-600  appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                         type="text"
                         placeholder="Task title"
                         required
@@ -67,7 +97,7 @@ const EditPopup = ({ setPopup, _id, todo, setTodo }) => {
                       />
 
                       <DatePickerComponent
-                        date={values.toBeDoneAt}
+                        date={date1.toISOString().substring(0, 10)}
                         setDate={(e) =>
                           handleChange({
                             ...values,
@@ -78,7 +108,7 @@ const EditPopup = ({ setPopup, _id, todo, setTodo }) => {
                     </div>
                     <textarea
                       name="description"
-                      className="resize-none border rounded focus:outline-none focus:shadow-outline w-full py-2 my-2 z-50"
+                      className="text-gray-700 resize-none border rounded focus:outline-none focus:shadow-outline w-full py-2 my-2 z-50"
                       type="text"
                       placeholder=" Enter description to your task"
                       required
@@ -96,7 +126,7 @@ const EditPopup = ({ setPopup, _id, todo, setTodo }) => {
                       <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                         <button
                           type="submit"
-                          className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                          className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-gray-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                         >
                           Edit
                         </button>

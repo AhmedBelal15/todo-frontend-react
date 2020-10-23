@@ -7,6 +7,7 @@ const TodoAdd = ({ setTodo, todo }) => {
 
   // Get Token + userId
   const getUser = JSON.parse(localStorage.getItem("currentUser"));
+  const token = getUser.accessToken
   const [values, handleChange] = useState({
     title: "",
     description: "",
@@ -23,7 +24,7 @@ const TodoAdd = ({ setTodo, todo }) => {
     }
     await fetch("http://localhost:4000/api/user/createtodo", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", auth: `Bearer ${token}`},
       body: JSON.stringify({
         userId: getUser.userObject._id,
         title: values.title,
@@ -32,7 +33,7 @@ const TodoAdd = ({ setTodo, todo }) => {
       }),
     });
     // change state to rerender component
-    setTodo({ counter: todo.counter++ });
+    setTodo(todo.counter++);
 
     // reset the state
     handleChange({
