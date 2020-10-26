@@ -29,7 +29,7 @@ const GetTodos = ({ todo, setTodo }) => {
       method: "delete",
       headers: { "Content-Type": "application/json", auth: `Bearer ${token}` },
     });
-    setTodo({todo: todo.counter++})
+    setTodo({...todo, counter: todo.counter++})
   };
 
   //Returning the Card Component and passing necessary data

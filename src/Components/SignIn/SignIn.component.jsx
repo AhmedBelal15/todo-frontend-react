@@ -5,6 +5,7 @@ import CustomButton from '../CustomButton/CustomButton.component'
 import {setCurrentUser} from '../../redux/user/user-actions'
 import {connect} from 'react-redux'
 import { useAlert } from "react-alert";
+import {Link} from 'react-router-dom'
 import './SignIn.style.css'
 
 
@@ -68,7 +69,8 @@ const SignIn = ({setCurrentUser}) => {
                    handleChange={handleChange}
                    label='password'
                    />
-                    <div className='buttons'>
+                  <Link to="/requestreset" className="hover:text-indigo-800"> Forgot password? </Link>
+                    <div className='buttons mt-2 '>
                    <CustomButton type="submit"> Sign In </CustomButton>                   
                     </div>
                </form>

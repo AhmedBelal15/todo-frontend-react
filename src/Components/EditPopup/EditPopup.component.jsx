@@ -51,7 +51,7 @@ const EditPopup = ({
       }
     );
 
-      setTodo({todo: todo.counter++});
+      setTodo({...todo, counter: todo.counter++});
       setPopup(false);
     
   };

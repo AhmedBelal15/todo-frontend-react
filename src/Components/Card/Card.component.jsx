@@ -6,7 +6,7 @@ import EditPopup from '../EditPopup/EditPopup.component'
 
 const Card = ({ title, description, handleDelete, _id, todo, setTodo, toBeDoneAt }) => {
   const alert = useAlert()
-  const [action, setAction] = useState("");
+  const [, setAction] = useState("");
   const [popup, setPopup] = useState(false)
   const alertOptions = () => {
    return alert.show("Are you sure u want to delete this task?", {

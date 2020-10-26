@@ -33,7 +33,7 @@ const TodoAdd = ({ setTodo, todo }) => {
       }),
     });
     // change state to rerender component
-    setTodo(todo.counter++);
+    setTodo({...todo, counter: todo.counter++});
 
     // reset the state
     handleChange({
