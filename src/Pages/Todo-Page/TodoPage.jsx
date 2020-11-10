@@ -1,24 +1,48 @@
-import React from "react";
+import React, {useState, useRef, useCallback} from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import TodoAdd from "../../Components/TodoAdd/TodoAdd.component";
 import GetTodos from "../../Components/GetTodos/GetTodos.Component";
 import ScrollBox from "../../Components/Scroll/ScrollBox.component";
-import { useState } from "react";
+import useFetch from "../../CustomHooks/useFetch";
+
 
 const TodoPage = ({ currentUser }) => {
-  const [todo, setTodo] = useState({ counter: 0 });
+//__________________
+const [pageNumber, setPageNumber] = useState(1)
+
+const { loading, todos, hasMore, setTodos} = useFetch(pageNumber);
+
+const observer = useRef();
+
+const lastTodo = useCallback((node) => {
+  if (loading) {
+    return;
+  }
+
+  if(observer.current !== undefined) {observer.current.disconnect()}
+
+  observer.current = new IntersectionObserver(entries => {
+    if(entries[0].isIntersecting && hasMore === true){
+      setPageNumber(prev => prev+1)
+    }
+  })
+  if(node){observer.current.observe(node)}
+  console.log('hasMore', hasMore);
+},[hasMore, loading]);
+
+//_________________
   if (currentUser) {
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-2">
         <div>
           <div className="border-b border-blue-500 py-2 w-full">
-            <TodoAdd todo={todo} setTodo={setTodo} />
+            <TodoAdd setTodos={setTodos} />
           </div>
 
           <div className="mt-4">
             <ScrollBox>
-              <GetTodos todo={todo} setTodo={setTodo} />
+              <GetTodos todos={todos} setTodos={setTodos} lastTodo={lastTodo} loading={loading} />
             </ScrollBox>
           </div>
         </div>

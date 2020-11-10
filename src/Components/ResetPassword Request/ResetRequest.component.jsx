@@ -15,7 +15,7 @@ const ResetRequest = () => {
     e.preventDefault();
     if(values.email === "") {return}
     const response = await fetch(
-      `http://localhost:4000/api/user/resetpassword`,
+      `https://aqueous-earth-51842.herokuapp.com/user/resetpassword`,
       {
         method: "post",
         headers: {

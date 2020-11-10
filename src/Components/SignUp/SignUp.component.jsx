@@ -14,7 +14,7 @@ const SignUp = () => {
       alert.show("Passwords don't match");
       return;
     }
-    const response = await fetch("http://localhost:4000/api/user/register", {
+    const response = await fetch("https://aqueous-earth-51842.herokuapp.com/user/register", {
       method: "post",
       headers: {
         "Content-Type": "application/json",

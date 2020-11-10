@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import DatePickerComponent from "../../Components/Date Picker/DatePicker.Component";
 import { useAlert } from "react-alert";
 
-const TodoAdd = ({ setTodo, todo }) => {
+const TodoAdd = ({ setTodos }) => {
   const alert = useAlert();
 
   // Get Token + userId
   const getUser = JSON.parse(localStorage.getItem("currentUser"));
-  const token = getUser.accessToken
+  const token = getUser.accessToken;
+  const refreshToken = getUser.refreshToken;
+
   const [values, handleChange] = useState({
     title: "",
     description: "",
@@ -22,18 +24,31 @@ const TodoAdd = ({ setTodo, todo }) => {
     if (date > new Date(values.toBeDoneAt)) {
       return alert.show("Can't Accept Dates in the past");
     }
-    await fetch("http://localhost:4000/api/user/createtodo", {
-      method: "post",
-      headers: { "Content-Type": "application/json", auth: `Bearer ${token}`},
-      body: JSON.stringify({
-        userId: getUser.userObject._id,
-        title: values.title,
-        description: values.description,
-        toBeDoneAt: values.toBeDoneAt,
-      }),
-    });
-    // change state to rerender component
-    setTodo({...todo, counter: todo.counter++});
+    const response = await fetch(
+      "https://aqueous-earth-51842.herokuapp.com/user/createtodo",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          auth: `Bearer ${token}`,
+          refreshToken,
+        },
+        body: JSON.stringify({
+          userId: getUser.userObject._id,
+          title: values.title,
+          description: values.description,
+          toBeDoneAt: values.toBeDoneAt,
+        }),
+      }
+    );
+
+    const stat = response.status;
+    const data = await response.json();
+    if (stat === 200) {
+      setTodos((prevTodos) => {
+        return [data, ...prevTodos].flat(1);
+      });
+    }
 
     // reset the state
     handleChange({

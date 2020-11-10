@@ -15,7 +15,7 @@ const Header = ({currentUser, setCurrentUser}) => {
     }
 
 return (
-    <header className='flex items-center justify-between bg-blue-600 h-12 text-white fixed-nav'>
+    <header className='flex items-center justify-between bg-blue-700 h-12 text-white fixed-nav'>
         <div className='ml-3'>
             <Link to='/todo'>
                 <Logo className='w-10 fill-current' />

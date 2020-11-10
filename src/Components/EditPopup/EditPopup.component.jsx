@@ -5,8 +5,8 @@ import { useAlert } from "react-alert";
 const EditPopup = ({
   setPopup,
   _id,
-  todo,
-  setTodo,
+  todos,
+  setTodos,
   title,
   description,
   toBeDoneAt,
@@ -18,7 +18,7 @@ const EditPopup = ({
   });
   //Get token from localstorage
   const token = JSON.parse(localStorage.getItem("currentUser")).accessToken;
-
+  const refreshToken = JSON.parse(localStorage.getItem("currentUser")).refreshToken;
   const handleSubmit = async (e) => {
     e.preventDefault();
     const date = new Date();
@@ -35,13 +35,14 @@ const EditPopup = ({
         "You must perform an edit to continue, or press Cancel"
       );
     }
-     await fetch(
-      `http://localhost:4000/api/user/editTodo/${_id}`,
+    const response = await fetch(
+      `https://aqueous-earth-51842.herokuapp.com/user/editTodo/${_id}`,
       {
         method: "put",
         headers: {
           "Content-Type": "application/json",
           auth: `Bearer ${token}`,
+          refreshToken
         },
         body: JSON.stringify({
           title: values.title,
@@ -50,8 +51,19 @@ const EditPopup = ({
         }),
       }
     );
-
-      setTodo({...todo, counter: todo.counter++});
+  const stat = response.status
+  if(stat === 200) {
+    const newTodos = [...todos]
+    newTodos.forEach(todo => {
+      if(todo._id === _id){
+        todo.title = values.title
+        todo.description = values.description
+        todo.toBeDoneAt = values.toBeDoneAt
+      }
+    })
+    setTodos(newTodos)
+  }  
+      // setTodo({...todo, counter: todo.counter++});
       setPopup(false);
     
   };

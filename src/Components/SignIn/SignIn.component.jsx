@@ -14,7 +14,7 @@ const SignIn = ({setCurrentUser}) => {
     const handleSignIn = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('http://localhost:4000/api/user/login',
+        const response = await fetch('https://aqueous-earth-51842.herokuapp.com/user/login',
         {
           method: 'post',
           headers: {'Content-Type': 'application/json'},

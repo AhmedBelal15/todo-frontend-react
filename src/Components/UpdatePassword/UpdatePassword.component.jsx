@@ -12,7 +12,7 @@ const [ , setAction] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(values.password !== values.confirmPassword) { return alert.show('Passwords are not identical!') }
-    const response = await fetch(`http://localhost:4000/api/user/updatepassword/${resetToken}`, 
+    const response = await fetch(`https://aqueous-earth-51842.herokuapp.com/user/updatepassword/${resetToken}`, 
     {
         method: 'put',
         headers: {

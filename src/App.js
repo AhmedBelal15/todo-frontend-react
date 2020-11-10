@@ -7,12 +7,12 @@ import HomePage from "./Pages/Home Page/HomePage.component";
 import Header from "./Components/Header/Header.component";
 import ResetRequest from './Components/ResetPassword Request/ResetRequest.component'
 import UpdatePassword from './Components/UpdatePassword/UpdatePassword.component'
-import { setCurrentUser } from "./redux/user/user-actions";
+import Footer from './Components/Footer/Footer.component'
 import TodoPage from "./Pages/Todo-Page/TodoPage";
+import { setCurrentUser } from "./redux/user/user-actions";
 
 function App({ currentUser, setCurrentUser }) {
   const getUser = JSON.parse(localStorage.getItem("currentUser"));
-
   if (getUser && !currentUser) {
     setCurrentUser({ currentUser: getUser.userObject });
   }
@@ -39,6 +39,7 @@ function App({ currentUser, setCurrentUser }) {
           exact
           render={() => (currentUser ? <Redirect to="/" /> : <SignInPage />)}
         />
+        <Footer />
       </Router>
     </Fragment>
   );
