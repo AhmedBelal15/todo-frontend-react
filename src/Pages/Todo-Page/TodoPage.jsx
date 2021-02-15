@@ -1,57 +1,68 @@
-import React, {useState, useRef, useCallback} from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import TodoAdd from "../../Components/TodoAdd/TodoAdd.component";
 import GetTodos from "../../Components/GetTodos/GetTodos.Component";
 import ScrollBox from "../../Components/Scroll/ScrollBox.component";
 import useFetch from "../../CustomHooks/useFetch";
 
-
 const TodoPage = ({ currentUser }) => {
-//__________________
-
-const [pageNumber, setPageNumber] = useState(1)
-
-const { loading, todos, hasMore, setTodos} = useFetch(pageNumber);
-
-const observer = useRef();
-
-const lastTodo = useCallback((node) => {
-  if (loading) {
-    return;
+  const history = useHistory();
+  if (!currentUser) {
+    history.push("/");
   }
 
-  if(observer.current !== undefined) {observer.current.disconnect()}
+  const [pageNumber, setPageNumber] = useState(1);
 
-  observer.current = new IntersectionObserver(entries => {
-    if(entries[0].isIntersecting && hasMore === true){
-      setPageNumber(prev => prev+1)
-    }
-  })
-  if(node){observer.current.observe(node)}
-  console.log('hasMore', hasMore);
-},[hasMore, loading]);
+  const { loading, todos, hasMore, setTodos } = useFetch(pageNumber);
 
-//_________________
-  if (currentUser) {
-    return (
-      <div className="flex justify-center pb-2">
-        <div>
-          <div className="border-b border-blue-500 py-2 w-full">
-            <TodoAdd setTodos={setTodos} />
-          </div>
+  const observer = useRef();
 
-          <div className="mt-4">
-            <ScrollBox>
-              <GetTodos todos={todos} setTodos={setTodos} lastTodo={lastTodo} loading={loading} />
-            </ScrollBox>
-          </div>
+  const lastTodo = useCallback(
+    (node) => {
+      if (loading) {
+        return;
+      }
+
+      if (observer.current !== undefined) {
+        observer.current.disconnect();
+      }
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore === true) {
+          setPageNumber((prev) => prev + 1);
+        }
+      });
+      if (node) {
+        observer.current.observe(node);
+      }
+      console.log("hasMore", hasMore);
+    },
+    [hasMore, loading]
+  );
+
+  //_________________
+
+  return (
+    <div className="flex justify-center pb-2">
+      <div>
+        <div className="border-b border-blue-500 py-2 w-full">
+          <TodoAdd setTodos={setTodos} />
+        </div>
+
+        <div className="mt-4">
+          <ScrollBox>
+            <GetTodos
+              todos={todos}
+              setTodos={setTodos}
+              lastTodo={lastTodo}
+              loading={loading}
+            />
+          </ScrollBox>
         </div>
       </div>
-    );
-  } else {
-    return <Redirect to="/sign-in" />;
-  }
+    </div>
+  );
 };
 
 const mapStateToProps = ({ user }) => {
