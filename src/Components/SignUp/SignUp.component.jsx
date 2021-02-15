@@ -23,6 +23,7 @@ const SignUp = () => {
         name,
         email,
         password,
+        confirmPassword
       }),
     });
     const data = await response.json();
