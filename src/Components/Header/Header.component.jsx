@@ -26,7 +26,9 @@ return (
                 <Link to='/'>
                 <li className='pl-2'>Home</li>
                 </Link>
+                <a href="https://github.com/AhmedBelal15">
                 <li className='pl-2'>About</li>
+                </a>
                 {
                 currentUser? 
                 <li className='ml-2 cursor-pointer bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full' onClick={handleSignout}>Sign Out</li>

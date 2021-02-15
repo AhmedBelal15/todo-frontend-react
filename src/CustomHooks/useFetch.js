@@ -4,7 +4,10 @@ const useFetch = (pageNumber, up) => {
   const [loading, setLoading] = useState(true);
   const [todos, setTodos] = useState([]);
   const [hasMore, setHasMore] = useState()
-  const token = JSON.parse(localStorage.getItem("currentUser")).accessToken;
+  let token
+  if(localStorage.getItem("currentUser")){
+    token = JSON.parse(localStorage.getItem("currentUser")).accessToken;
+  }
   useEffect(() => {
     
     //Fetch using IIFE

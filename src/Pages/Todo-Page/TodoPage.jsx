@@ -9,6 +9,7 @@ import useFetch from "../../CustomHooks/useFetch";
 
 const TodoPage = ({ currentUser }) => {
 //__________________
+
 const [pageNumber, setPageNumber] = useState(1)
 
 const { loading, todos, hasMore, setTodos} = useFetch(pageNumber);

@@ -3,7 +3,7 @@ import './Footer.style.css'
 
 const Footer = () => (
   <footer className="bg-blue-700 text-center text-white flex justify-center items-center footer">
-    Special Thanks to صاحبي القمد Khaled Mohammed
+    Side Project by: Ahmed Belal
   </footer>
 );
 
