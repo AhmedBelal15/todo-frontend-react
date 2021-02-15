@@ -14,7 +14,7 @@ const useFetch = (pageNumber, up) => {
     (async function () {
     setLoading(true)
       const response = await fetch(
-        `https://aqueous-earth-51842.herokuapp.com/gettodos?page=${pageNumber}&limit=10`,
+        `https://aqueous-earth-51842.herokuapp.com/todo/gettodos?page=${pageNumber}&limit=10`,
         {
           method: "get",
           headers: {
