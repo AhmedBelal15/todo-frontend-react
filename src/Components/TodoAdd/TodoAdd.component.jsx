@@ -25,7 +25,7 @@ const TodoAdd = ({ setTodos }) => {
       return alert.show("Can't Accept Dates in the past");
     }
     const response = await fetch(
-      "https://aqueous-earth-51842.herokuapp.com/user/createtodo",
+      "https://aqueous-earth-51842.herokuapp.com/todo/createtodo",
       {
         method: "post",
         headers: {

@@ -12,7 +12,7 @@ const GetTodos = ({ todos, lastTodo, loading, setTodos }) => {
   // handleDelete
   const handleDelete = async (id) => {
     const response = await fetch(
-      `https://aqueous-earth-51842.herokuapp.com/user/removetodo/${id}`,
+      `https://aqueous-earth-51842.herokuapp.com/todo/marktodo/${id}`,
       {
         method: "delete",
         headers: {
@@ -35,7 +35,7 @@ const GetTodos = ({ todos, lastTodo, loading, setTodos }) => {
   //handle Checkbox
   const handleCheckbox = async (id, index) => {
     const response = await fetch(
-      `https://aqueous-earth-51842.herokuapp.com/user/marktodo/${id}`,
+      `https://aqueous-earth-51842.herokuapp.com/todo/marktodo/${id}`,
       {
         method: "put",
         headers: {

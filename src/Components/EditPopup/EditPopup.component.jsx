@@ -36,7 +36,7 @@ const EditPopup = ({
       );
     }
     const response = await fetch(
-      `https://aqueous-earth-51842.herokuapp.com/user/editTodo/${_id}`,
+      `https://aqueous-earth-51842.herokuapp.com/todo/edittodo/${_id}`,
       {
         method: "put",
         headers: {
