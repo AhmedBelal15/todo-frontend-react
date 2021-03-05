@@ -12,7 +12,7 @@ const GetTodos = ({ todos, lastTodo, loading, setTodos }) => {
   // handleDelete
   const handleDelete = async (id) => {
     const response = await fetch(
-      `https://aqueous-earth-51842.herokuapp.com/todo/marktodo/${id}`,
+      `https://aqueous-earth-51842.herokuapp.com/todo/removetodo/${id}`,
       {
         method: "delete",
         headers: {
